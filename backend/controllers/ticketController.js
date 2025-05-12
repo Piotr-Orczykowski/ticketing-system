@@ -1,3 +1,6 @@
+// File: backend/controllers/ticketController.js
+// This code defines the controller functions for ticket management
+
 exports.createTicket = async (req, res) => {
     req.send("Create Ticket");
 }
