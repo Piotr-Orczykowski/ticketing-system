@@ -57,11 +57,31 @@ exports.loginUser = async (req, res) => {
 }
 
 exports.getUserProfile = async (req, res) => {
-    res.send("Get User Profile");
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 exports.updateUserProfile = async (req, res) => {
-    res.send("Update User Profile");
+    try {
+        const updates = req.body;
+        if (updates.password) {
+            updates.password = await bcrypt.hash(updates.password, 10);
+        }
+        const user = await User.findByIdAndUpdate(req.user.id, updates, { new: true}).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: 'User not found'});
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ messageL: error.message });
+    }
 }
 
 exports.deleteUser = async (req, res) => {
