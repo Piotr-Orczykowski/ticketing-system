@@ -52,7 +52,7 @@ exports.loginUser = async (req, res) => {
             }
         });
     } catch (error) {
-        req.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
