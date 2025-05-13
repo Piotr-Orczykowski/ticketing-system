@@ -13,4 +13,4 @@ router.get('/get/:ticketId', getComments);
 router.put('/update/:commentId', updateComment);
 router.delete('/delete/:commentId', deleteComment);
 
-exports = router;
+module.exports = router;
