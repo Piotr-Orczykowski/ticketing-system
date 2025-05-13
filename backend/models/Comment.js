@@ -1,4 +1,4 @@
-const scommentSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema({
     ticketId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Ticket',
