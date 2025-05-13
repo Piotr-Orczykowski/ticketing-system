@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 
 // User model for MongoDB
-const userSchema = newMongoose.Schema({
+const userSchema = new Mongoose.Schema({
     username: {
         type: String,
         required: true
