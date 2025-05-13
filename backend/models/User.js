@@ -1,4 +1,6 @@
 const { use } = require("react");
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 // User model for MongoDB
 const userSchema = newMongoose.Schema({
