@@ -30,7 +30,13 @@ exports.addComment = async (req, res) => {
 };
 
 exports.getComments = async (req, res) => {
-    res.send("Get Comments");
+    try {
+        const ticketId = req.params.ticketId;
+        const comments = await Comment.find({ ticketId }).populate('userId', 'username email');
+        res.json(comments);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 exports.updateComment = async (req, res) => {
