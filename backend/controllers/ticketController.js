@@ -33,7 +33,20 @@ exports.getTickets = async (req, res) => {
 }
 
 exports.updateTicket = async (req, res) => {
-    req.send("Update Ticket");
+    try {
+        const { ticketId } = req.params;
+        const updates = req.body;
+        const ticket = await Ticket.findByIdAndUpdate(ticketId, updates, { new: true });
+        if (!ticket) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+        res.json({
+            message: 'Ticket updated successfully',
+            ticket
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 exports.deleteTicket = async (req, res) => {
