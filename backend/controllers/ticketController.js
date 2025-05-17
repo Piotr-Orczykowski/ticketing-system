@@ -24,7 +24,12 @@ exports.createTicket = async (req, res) => {
 }
 
 exports.getTickets = async (req, res) => {
-    req.send("Get Tickets");
+    try {
+        const tickets = await Ticket.find().populate('assignedTo createdBy', 'username email');
+        res.json(tickets);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 exports.updateTicket = async (req, res) => {
