@@ -50,6 +50,17 @@ exports.updateTicket = async (req, res) => {
 }
 
 exports.deleteTicket = async (req, res) => {
-    req.send("Delete Ticket");
+    try {
+        const { ticketId } = req.params;
+        const ticket = await Ticket.findByIdAndDelete(ticketId);
+        if (!ticket) {
+            return res.status(404).json({ message: 'Ticket not found' });
+        }
+        res.json({
+            message: 'Ticket deleted successfully'
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
