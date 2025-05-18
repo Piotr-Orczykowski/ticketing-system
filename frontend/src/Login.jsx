@@ -21,7 +21,7 @@ export default function Login() {
     };
 
     return (
-        <form onSubmit={handeSubmit}>
+        <form onSubmit={handleSubmit}>
             <h2>Login</h2>
             <input 
                 type="email"
