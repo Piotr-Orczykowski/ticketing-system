@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import API from './api';
+import API from '../api';
 
 export default function Register() {
     const [form, setForm] = useState({ username: '', email: '', password: '', role: 'customer' });

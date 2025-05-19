@@ -1,7 +1,11 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import Login from './Login';
-import Register from './Register';
+import Login from './components/Login';
+import Register from './components/Register';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminDashboard from './components/AdminDashboard';
+import AgentDashboard from './components/AgentDashboard';
+import CustomerDashboard from './components/CustomerDashboard';
 import './App.css'
 
 function App() {
