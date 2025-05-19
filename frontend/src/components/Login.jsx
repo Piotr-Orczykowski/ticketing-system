@@ -15,10 +15,10 @@ export default function Login() {
         try {
             const response = await API.post('/auth/login', { email, password });
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('userRole', response.data.role);
+            localStorage.setItem('userRole', response.data.user.role);
 
             //Navigate based on user role
-            switch (response.data.role) {
+            switch (response.data.user.role) {
                 case 'admin':
                     navigate('/admin-dashboard');
                     break;
