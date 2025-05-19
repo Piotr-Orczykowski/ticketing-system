@@ -15,7 +15,22 @@ export default function Login() {
         try {
             const response = await API.post('/auth/login', { email, password });
             localStorage.setItem('token', response.data.token);
-            navigate('/Dashboard'); 
+            localStorage.setItem('userRole', response.data.role);
+
+            //Navigate based on user role
+            switch (response.data.role) {
+                case 'admin':
+                    navigate('/admin-dashboard');
+                    break;
+                case 'agent':
+                    navigate('/agent-dashboard');
+                    break;
+                case 'customer':
+                    navigate('/customer-dashboard');
+                    break;
+                default:
+                    navigate('/');
+            }
         }
         catch (error) {
             setError(error.response?.data?.message || 'Invalid email or password');
