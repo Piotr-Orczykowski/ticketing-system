@@ -3,9 +3,10 @@ import API from '../api';
 import { Link } from "react-router-dom";
 
 export default function Register() {
-    const [form, setForm] = useState({ username: '', email: '', password: '', role: 'customer' });
+    const [form, setForm] = useState({ username: '', email: '', password: '', passwordConfirm: '', role: 'customer' });
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [agreed, setAgreed] = useState(false);
 
     const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -13,6 +14,22 @@ export default function Register() {
         e.preventDefault();
         setError('');
         setMessage('');
+
+        if (form.password !== form.passwordConfirm) {
+            setError('Passwords do not match');
+            return;
+        }
+
+        if (!agreed) {
+            setError('You must agree to the terms of use');
+            return;
+        }
+
+        if (!form.username || !form.email || !form.password || !form.passwordConfirm) {
+            setError('All fields are required');
+            return;
+        }
+
         try {
             await API.post('/auth/register', form);
             setMessage('Registration successful! You can now log in.');
@@ -28,9 +45,12 @@ export default function Register() {
         </header>
         <main className="flex flex-1 items-center justify-center">
             <form className="bg-white border border-gray-200 rounded-lg p-8 w-full max-w-xs flex flex-col gap-4 shadow" onSubmit={handleSubmit}>
+            {error && <div className="text-red-600 text-sm">{error}</div>}
+            {message && <div className="text-green-600 text-sm">{message}</div>}
             <label className="text-sm font-medium">Username</label>
             <input
-                type="username"
+                type="text"
+                name="username"
                 placeholder="Your username..."
                 className="border rounded px-3 py-2"
                 value={form.username}
@@ -39,6 +59,7 @@ export default function Register() {
             <label className="text-sm font-medium">Email</label>
             <input
                 type="email"
+                name="email"
                 placeholder="Your email address..."
                 className="border rounded px-3 py-2"
                 value={form.email}
@@ -47,6 +68,7 @@ export default function Register() {
             <label className="text-sm font-medium">Password</label>
             <input
                 type="password"
+                name="password"
                 placeholder="Your Password..."
                 className="border rounded px-3 py-2"
                 value={form.password}
@@ -55,16 +77,17 @@ export default function Register() {
             <label className="text-sm font-medium">Password confirmation</label>
             <input
                 type="password"
+                name="passwordConfirm"
                 placeholder="Repeat Password..."
                 className="border rounded px-3 py-2"
-                //value={form.password} todo: Implement password confirmation
+                value={form.passwordConfirm}
                 onChange={handleChange}
             />
             <label className="flex items-center text-xs">
             <input
                 type="checkbox"
-                //checked={agreed} TODO: Implement checkbox state
-                //onChange={} TODO: Implement checkbox state
+                checked={agreed}
+                onChange={e => setAgreed(e.target.checked)}
                 className="mr-2"
             />
             I agree to Terms of use
