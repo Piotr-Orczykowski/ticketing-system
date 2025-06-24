@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import API from '../api';
 import { useNavigate } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -37,25 +38,44 @@ export default function Login() {
         }
     };
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <h2>Login</h2>
-            <input 
-                type="email"
-                placeholder='Email'
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-            /><br />
-            <input 
-                type="password"
-                placeholder='Password'
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-            /><br />
-            <button type="submit">Login</button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+  return (
+    <div className="flex flex-col min-h-screen">
+      <header className="bg-neutral-500 text-white text-center py-4 text-xl font-semibold rounded-b-lg">
+        Ticketing System
+      </header>
+      <main className="flex flex-1 items-center justify-center">
+        <form className="bg-white border border-gray-200 rounded-lg p-8 w-full max-w-xs flex flex-col gap-4 shadow" onSubmit={handleSubmit}>
+          <label className="text-sm font-medium">Email</label>
+          <input
+            type="email"
+            placeholder="Your email address..."
+            className="border rounded px-3 py-2"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+          <label className="text-sm font-medium">Password</label>
+          <input
+            type="password"
+            placeholder="Your Password..."
+            className="border rounded px-3 py-2"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <button
+            type="submit"
+            className="bg-neutral-800 text-white rounded py-2 mt-2 hover:bg-neutral-700"
+          >
+            Sign In
+          </button>
+          <div className="flex justify-between text-xs mt-2">
+            <a href="#" className="underline">Forgot password?</a>
+            <Link to="/register" className="underline">Not registered?</Link>
+          </div>
         </form>
-    );
+      </main>
+      <footer className="bg-neutral-500 text-white text-xs py-6 px-4 absolute bottom-0 left-0 w-full text-bold">
+        © 2025 Piotr Orczykowski
+      </footer>
+    </div>
+  );
 }
