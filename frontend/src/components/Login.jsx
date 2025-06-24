@@ -10,10 +10,12 @@ export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
 
         try {
             const response = await API.post('/auth/login', { email, password });
@@ -37,6 +39,8 @@ export default function Login() {
         }
         catch (error) {
             setError(error.response?.data?.message || 'Invalid email or password');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -47,6 +51,7 @@ export default function Login() {
       </header>
       <main className="flex flex-1 items-center justify-center">
         <form className="bg-white border border-gray-200 rounded-lg p-8 w-full max-w-xs flex flex-col gap-4 shadow" onSubmit={handleSubmit}>
+          {error && <div className="text-red-600 text-sm">{error}</div>}
           <label className="text-sm font-medium">Email</label>
           <input
             type="email"
@@ -54,6 +59,7 @@ export default function Login() {
             className="border rounded px-3 py-2"
             value={email}
             onChange={e => setEmail(e.target.value)}
+            disabled={loading}
           />
           <label className="text-sm font-medium">Password</label>
           <input
@@ -62,12 +68,13 @@ export default function Login() {
             className="border rounded px-3 py-2"
             value={password}
             onChange={e => setPassword(e.target.value)}
+            disabled={loading}
           />
           <button
             type="submit"
             className="bg-neutral-800 text-white rounded py-2 mt-2 hover:bg-neutral-700"
           >
-            Sign In
+            {loading ? 'Logging in...' : 'Login'}
           </button>
           <div className="flex justify-between text-xs mt-2">
             <a href="#" className="underline">Forgot password?</a>
